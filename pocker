@@ -1,0 +1,114 @@
+
+struct card {
+  int v; 
+  int suit; 
+};
+
+struct deck {
+  int count; 
+  card set[52]; 
+};
+
+
+void sort(deck d, bool byV)	
+{
+	bool sorted = false;
+	while (!sorted) {
+		
+		int i = 0;
+		sorted = true;
+		while (i < d.count - 1) {
+			
+			bool gt = byV ? d.set[i].v > d.set[i + 1].v : d.set[i].suit > d.set[i + 1].suit;
+			if (gt) {
+				
+				sorted = false;
+				card tmp = d.set[i + 1];
+				d.set[i + 1] = d.set[i];
+				d.set[i] = tmp;
+			}
+			i++;
+		}
+	}
+}
+
+int longrun(deck d, int second) 
+{
+	sort(d, true); 
+	
+	second = 0;
+	int first = 1, current = 1;
+	
+	int v = d.set[0].v;
+	int i = 0;
+	while (i++ < d.count - 1) {
+		
+		if (v == d.set[i].v) current++;
+		else {
+			
+			if (current > first)
+				first = current;
+			if ((current < first) && (current > second))
+				second = current;
+			
+			current = 1;
+			v = d.set[i].v;
+		}
+	}
+	if (current > first)
+		first = current;
+	if ((current < first) && (current > second))
+		second = current;
+	
+	return first;
+}
+
+bool Straight(deck d, bool Flush) 
+{
+	sort(d, true); 
+	
+	int v = d.set[0].v;
+	int s = d.set[0].suit;
+	int i = 0;
+	while (i++ < d.count - 1) {
+		
+		if ( (d.set[i].v != d.set[i-1].v + 1) || (Flush & (d.set[i].suit != s)) )
+			return false;
+	}
+	
+	return true;
+}
+
+bool RoyalFlush(deck d) 
+{
+	if (Straight(d, true))
+		return (10 == d.set[0].v);
+	else
+		return false;
+}
+
+bool FourOfAKind(deck d) 
+{
+	int s;
+	return (4 == longrun(d, s));
+}
+
+bool FullHouse(deck d) 
+{
+	int f, s;
+	f = longrun(d, s);
+	return ((3 == f) && (2 == s));
+}
+
+bool Flush(deck d) 
+{
+	sort(d, false);	// sort by suit
+	int s = d.set[0].suit;
+	int i = 0;
+	while (i++ < d.count - 1) {
+		//
+		if ( d.set[i].suit != s )
+			return false;
+	}
+	return true;
+}
