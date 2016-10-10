@@ -5,8 +5,8 @@ class Holdem{
 
 
 	static { 
-		Integer[] rank = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
-		String[] suit = {"c", "s", "h", "d"}
+		Integer[] rank = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+		String[] suit = {"c", "s", "h", "d"};
  		for (int  i = 0; i < 52; i++) 			
  			for (int j = 0; j < 13; j++)
  				for (int k = 0; k < 4; k++){
@@ -18,15 +18,13 @@ public static void main (String[] args){
 	Integer[7] Cards = new Integer[];
 	
 	for  (int i=0; i < 7; i++){		
-			Cards[i] = generate();
+			Cards[i] = generate(deck);
 	}
 
 	
-// получить 
 
-public Integer[] void (){
+
+public int[] generate (String[] deck){
 
 }
 }
-
-class 
